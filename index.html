@@ -98,7 +98,12 @@
   const estado = document.getElementById("estado");
 
   function asignarVersion() {
-    const forzada = new URLSearchParams(location.search).get("v");
+    const params = new URLSearchParams(location.search);
+    // Modo prueba: index.html?reset borra la asignación guardada y sortea de nuevo
+    if (params.has("reset")) {
+      try { localStorage.removeItem("encuesta_version"); } catch (e) {}
+    }
+    const forzada = params.get("v");
     if (forzada === "A" || forzada === "B") return forzada;
     try {
       const previa = localStorage.getItem("encuesta_version");
